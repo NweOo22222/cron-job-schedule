@@ -8,8 +8,8 @@ jobs:
   live_stream:
     runs-on: ubuntu-latest
     env:
-      FACEBOOK_MAIN_TOKEN: ${{ secrets.FACEBOOK_MAIN_TOKEN }}
-      FACEBOOK_TEST_TOKEN: ${{ secrets.FACEBOOK_TEST_TOKEN }}
+      FACEBOOK_MAIN_TOKEN: ${{ secrets.FB_MAIN_TOKEN }}
+      FACEBOOK_TEST_TOKEN: ${{ secrets.FB_TEST_TOKEN }}
     steps:
       - uses: actions/checkout@v2
       - uses: FedericoCarboni/setup-ffmpeg@v1
