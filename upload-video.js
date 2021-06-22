@@ -7,8 +7,8 @@ const url = input.length === '11' ? `https://www.youtube.com/watch?v=${input}` :
 
 getVideoInfo(url)
     .then(async ({ title, channelName, description, url, formats, thumbnail }) => {
-        let format = formats.filter(({ container }) => container === 'mp4')[0];
-        if (!format) throw "no video source is available.";
+            let format = formats.find(({ qualityLabel }) => qualityLabel === '720p' || qualityLabel === '480p' || qualityLabel === '360p');
+
         const { data: { id } } = await axios(`${FACEBOOK_GRAPH_URL}/me?access_token=${FACEBOOK_PAGE_TOKEN}`);
         const data = await facebookApiVideoUpload({
             id,
