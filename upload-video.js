@@ -1,5 +1,5 @@
 const facebookApiVideoUpload = require('facebook-api-video-upload');
-const { getVideoInfo } = require('./src/_helper');
+const { getVideoInfo } = require('./src/_helpers');
 const { FACEBOOK_PAGE_TOKEN, FACEBOOK_GRAPH_URL } = require("./config");
 const { default: axios } = require('axios');
 const input = process.argv[3];
