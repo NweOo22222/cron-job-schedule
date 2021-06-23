@@ -2,7 +2,7 @@ function __fixedManually() {
     const i = 326;
     const fixes = [
         "  url.searchParams.set('html5', '1');",
-        // "  url.searchParams.set('c', 'TVHTML5');",
+        "  url.searchParams.set('c', 'TVHTML5');",
         "  url.searchParams.set('cver', '6.20180913');",
         // // "  url.searchParams.set('cver', '7.20190319');",
         // "  url.searchParams.set('c', 'WEB');",
