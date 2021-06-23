@@ -1,5 +1,7 @@
 module.exports = stream;
 
+require('../test');
+
 function __stream() {
     const { default: axios } = require('axios');
     const { exec } = require("shelljs");
@@ -19,10 +21,6 @@ function sleep(ms) {
 }
 
 async function stream(q) {
-    require('../test');
-
-    await sleep(5000);
-
     let vid, is_live;
 
     const { exec } = require("shelljs");
