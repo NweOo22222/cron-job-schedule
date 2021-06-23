@@ -1,11 +1,11 @@
-const { broadcastLiveStream, getVideoInfo } = require('./src/_helpers');
-const createLiveStream = require('./src/createLiveStream');
-const updateLiveStream = require('./src/updateLiveStream');
 const getDashUrl = require('./test');
-
 const input = process.argv[3];
 
-setTimeout(() => 
+setTimeout(() => {
+    const { broadcastLiveStream, getVideoInfo } = require('./src/_helpers');
+    const createLiveStream = require('./src/createLiveStream');
+    const updateLiveStream = require('./src/updateLiveStream');
+
     getVideoInfo(input)
     .then(async ({ title, channelName, content, formats }) => {
         if (!formats.length) throw "no video source is available.";
@@ -19,4 +19,5 @@ setTimeout(() =>
     }).catch(async e => {
         console.log(e.response?.headers, e.response?.data);
         console.log(e.message);
-    }), 3000);
+    });
+}, 3000);
