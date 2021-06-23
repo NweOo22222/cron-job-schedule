@@ -2,6 +2,8 @@ name: Live Stream
 on:
   workflow_dispatch:
     inputs:
+      channel:
+        required: true
       youtube_id:
         required: true
 jobs:
