@@ -17,7 +17,7 @@ Yt1s
       description: `${title} - ${a}\n\nOriginally uploaded from ${a} on Youtube at https://www.youtube.com/watch?v=${vid}`,
     });
     let { video_id } = await updateLiveStream(id);
-    broadcastLiveStream(format.url, stream_url);
+    broadcastLiveStream(response.dlink, stream_url);
   }).catch(e => {
     console.log('ERROR::', e.response?.headers, e.response?.data || e.message);
     console.log(e.message);
