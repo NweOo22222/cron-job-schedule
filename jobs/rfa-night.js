@@ -1,10 +1,10 @@
+const { exec } = require("shelljs");
 const { schedule } = require("node-cron");
 const { searchUntilLiveOnYoutube, fetchUntilLiveFromYoutube, broadcastLiveStream } = require("../src/_helpers");
 const createLiveStream = require("../src/createLiveStream");
 const updateLiveStream = require("../src/updateLiveStream");
-const deleteLiveStream = require("../src/deleteLiveStream");
 
-const CRON_SCHEDULE = '0 0 19 * * *'; // 19:00:00.000
+const CRON_SCHEDULE = '55 59 18 * * *'; //  at every 5:59:55 AM
 const QUERY_STRING = 'RFA နေ့စဉ်တိုက်ရိုက်ထုတ်လွှင့်ချက်';
 
 schedule(CRON_SCHEDULE, () => start(), { timezone: 'Asia/Rangoon' });
@@ -32,27 +32,13 @@ function start() {
             broadcastLiveStream(format.url, stream_url);
         })
         .catch(async (err) => {
+            console.error(':throw', err);
             if (is_live) {
-                console.error(err);
                 process.exit(1);
             }
-            Yt1s
-                .getVideoInfo(input)
-                .then(async ({ q, vid, title, t, a, links, status }) => {
-                    if (status !== 'ok') throw new Error('Failed to get Youtube video info');
-                    let response = await Yt1s.generateDownloadLink(vid, links.mp4, ['22', '135', '18']);
-                    if (response.status !== 'ok') throw new Error('Failed to generate download link');
-                    title = `${title} - ${a}`;
-                    if (title.length > 125) title = title.slice(0, 120);
-                    let { id, stream_url } = await createLiveStream({
-                        title,
-                        description: `${title} - ${a}\n\nOriginally uploaded from ${a} on Youtube at https://www.youtube.com/watch?v=${vid}`,
-                    });
-                    let { video_id } = await updateLiveStream(id);
-                    broadcastLiveStream(response.dlink, stream_url);
-                }).catch(e => {
-                    console.log('ERROR::', e.response?.headers, e.response?.data || e.message);
-                    console.log(e.message);
-                });
+            console.log(':set argv.3', vid);
+            console.log(' >>', new Date().toLocaleString('en-US', { timeZone: 'Asia/Yangon' }));
+            exec(`node '${__dirname}/../live-stream2.js' '${process.argv[2]}' '${vid}'`);
         });
 }
+

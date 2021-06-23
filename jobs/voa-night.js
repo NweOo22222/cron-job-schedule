@@ -1,12 +1,11 @@
+const { exec } = require("shelljs");
 const { schedule } = require("node-cron");
 const { searchUntilLiveOnYoutube, fetchUntilLiveFromYoutube, broadcastLiveStream } = require("../src/_helpers");
 const createLiveStream = require("../src/createLiveStream");
 const updateLiveStream = require("../src/updateLiveStream");
-const deleteLiveStream = require("../src/deleteLiveStream");
-const { exec } = require("shelljs");
 
-const CRON_SCHEDULE = '0 0 19 * * *'; // 19:00:00.000
-const QUERY_STRING = 'RFA နေ့စဉ်တိုက်ရိုက်ထုတ်လွှင့်ချက်';
+const CRON_SCHEDULE = '55 59 18 * * *'; //  at every 5:59:54 AM
+const QUERY_STRING = 'VOA Burmese';
 
 schedule(CRON_SCHEDULE, () => start(), { timezone: 'Asia/Rangoon' });
 
@@ -38,6 +37,7 @@ function start() {
                 process.exit(1);
             }
             console.log(':set argv.3', vid);
+            console.log(' >>', new Date().toLocaleString('en-US', { timeZone: 'Asia/Yangon' }));
             exec(`node '${__dirname}/../live-stream2.js' '${process.argv[2]}' '${vid}'`);
         });
 }
