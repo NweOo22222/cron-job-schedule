@@ -21,19 +21,6 @@ function __fixedManually() {
 
 __fixedManually()
 
-console.log('[TEST] testing ytdl-core:getVideoID')
-
-require('./src/_helpers')
-    .getVideoInfo('qMtcWqCL_UQ')
-    .then(({ title, ownerChannelName, formats }) => {
-        console.log('[ OK ] ytdl-core:getVideoID - title="%s" channelName="%s" formats.length=%d', title, ownerChannelName, formats.length)
-        if (!formats.length) {
-            return getDashUrl('qMtcWqCL_UQ').then((res) => console.log('>> %s', res))
-        }
-    })
-    .catch(err => {
-        console.error('[FAIL]', err.message)
-    });
 
 function getDashUrl(id) {
     const { default: axios } = require('axios');
