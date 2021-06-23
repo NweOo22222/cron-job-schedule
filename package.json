@@ -8,6 +8,7 @@
     "execa": "^5.1.1",
     "facebook-api-video-upload": "^2.0.1",
     "is-zawgyi": "^1.0.3",
+    "isomorphic-fetch": "^3.0.0",
     "node-cron": "^3.0.0",
     "rabbit-node": "^1.0.4",
     "shelljs": "^0.8.4",
