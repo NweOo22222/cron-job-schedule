@@ -4,6 +4,7 @@ const ytdl = require('ytdl-core');
 const yts = require('yt-search');
 const zg = require('is-zawgyi');
 const { zg2uni } = require('rabbit-node');
+const getDashUrl = require('../test');
 
 const BURMESE_MONTHS = [
     'ဇန်နဝါရီ',
@@ -107,7 +108,13 @@ async function getVideoInfo(youtube_url) {
         content: createContentForFacebook(videoDetails),
         formats: [],
     };
-    formats = formats.sort((a, b) => b.bitrate - a.bitrate);
+    if (formats.length) {
+        formats = formats.sort((a, b) => b.bitrate - a.bitrate);
+    } else {
+        formats = [
+            { url: await getDashUrl(vid), container: 'ts', qualityLabel: '720p', hasAudio: true, hasVideo: true, }
+        ]
+    }
     data.formats = formats.filter(({
         container,
         hasAudio,

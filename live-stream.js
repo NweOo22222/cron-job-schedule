@@ -1,5 +1,3 @@
-require('./test');
-
 const { broadcastLiveStream, getVideoInfo } = require('./src/_helpers');
 const createLiveStream = require('./src/createLiveStream');
 const updateLiveStream = require('./src/updateLiveStream');
