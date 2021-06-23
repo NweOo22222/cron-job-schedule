@@ -22,7 +22,7 @@ __fixedManually()
 console.log('[TEST] testing ytdl-core:getVideoID')
 
 require('ytdl-core')
-    .getInfo('TLVlOAe0tpI')
+    .getInfo('qMtcWqCL_UQ')
     .then(({ formats }) => {
         if (formats.length) console.log('[ OK ] ytdl-core:getVideoID')
     })
