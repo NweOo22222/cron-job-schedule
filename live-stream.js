@@ -7,7 +7,7 @@ const updateLiveStream = require('./src/updateLiveStream');
 const input = process.argv[3];
 
 getVideoInfo(input)
-    .then(async({ title, channelName, content, formats }) => {
+    .then(async ({ title, channelName, content, formats }) => {
         if (!formats.length) throw "no video source is available.";
         let format = formats.find(({ qualityLabel }) => qualityLabel === '720p' || qualityLabel === '480p' || qualityLabel === '360p');
         let { id, stream_url } = await createLiveStream({
@@ -17,6 +17,6 @@ getVideoInfo(input)
         let { video_id } = await updateLiveStream(id);
         broadcastLiveStream(format.url, stream_url);
     }).catch(e => {
-        console.log(e.response ? .headers, e.response ? .data);
+        console.log(e.response?.headers, e.response?.data);
         console.log(e.message);
     });

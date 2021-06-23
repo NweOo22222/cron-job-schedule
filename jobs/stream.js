@@ -1,12 +1,18 @@
 module.exports = function stream(q) {
     let vid, is_live;
+
+    const { exec } = require("shelljs");
+    const { searchUntilLiveOnYoutube, fetchUntilLiveFromYoutube, broadcastLiveStream } = require("../src/_helpers");
+    const createLiveStream = require("../src/createLiveStream");
+    const updateLiveStream = require("../src/updateLiveStream");
+
     console.log('> querying "', q, '" at', new Date().toLocaleString('en-US', { timeZone: 'Asia/Yangon' }));
     searchUntilLiveOnYoutube(q)
         .then(videoId => {
             vid = videoId;
             return fetchUntilLiveFromYoutube(vid);
         })
-        .then(async ({ title, channelName, content, formats }) => {
+        .then(async({ title, channelName, content, formats }) => {
             console.log(' >>', new Date().toLocaleString('en-US', { timeZone: 'Asia/Yangon' }));
             let format = formats.find(({ qualityLabel }) => qualityLabel === '720p') ||
                 formats.find(({ qualityLabel }) => qualityLabel === '480p') ||
@@ -20,7 +26,7 @@ module.exports = function stream(q) {
             is_live = true;
             broadcastLiveStream(format.url, stream_url);
         })
-        .catch(async (err) => {
+        .catch(async(err) => {
             console.error(':throw', err);
             if (is_live) {
                 process.exit(1);
