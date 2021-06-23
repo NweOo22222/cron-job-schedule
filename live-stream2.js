@@ -19,7 +19,7 @@ Yt1s
       }
     } catch(e) {
       console.log(e.message);
-      response = { response: await getDashUrl(vid) };
+      response = { dlink: await getDashUrl(vid) };
     }
     title = toUnicode(`${title} - ${a}`);
     if (title.length > 125) title = title.slice(0, 120);
