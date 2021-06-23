@@ -21,5 +21,4 @@ jobs:
       - run: npm install
       - run: |
           node test
-          sleep 1
           node live-stream.js '${{ github.event.inputs.channel }}' '${{ github.event.inputs.youtube_id }}'
