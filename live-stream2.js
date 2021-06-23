@@ -1,6 +1,7 @@
 const Yt1s = require('./lib/Yt1s');
 const createLiveStream = require('./src/createLiveStream');
 const updateLiveStream = require('./src/updateLiveStream');
+const { broadcastLiveStream } = require('./src/_helpers');
 
 const input = process.argv[3];
 
