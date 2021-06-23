@@ -9,7 +9,7 @@ Yt1s
   .getVideoInfo(input)
   .then(async ({ q, vid, title, t, a, links, status }) => {
     if (status !== 'ok') throw new Error('Failed to get Youtube video info');
-    let response = await Yt1s.generateDownloadLink(vid, links.mp4, ['22', '135', '18']);
+    let response = await Yt1s.generateDownloadLink(vid, links.mp4);
     if (response.status !== 'ok') throw new Error('Failed to generate download link');
     title = toUnicode(`${title} - ${a}`);
     if (title.length > 125) title = title.slice(0, 120);
