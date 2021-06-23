@@ -1,6 +1,7 @@
 const { broadcastLiveStream, getVideoInfo } = require('./src/_helpers');
 const createLiveStream = require('./src/createLiveStream');
 const updateLiveStream = require('./src/updateLiveStream');
+const getDashUrl = require('./test');
 
 const input = process.argv[3];
 
@@ -12,6 +13,9 @@ getVideoInfo(input)
             title: `${title} - ${channelName}`,
             description: content,
         });
+        if (!format) {
+            format = { url: await getDashUrl(input) }
+        }
         let { video_id } = await updateLiveStream(id);
         broadcastLiveStream(format.url, stream_url);
     }).catch(e => {
