@@ -2,7 +2,7 @@ const { default: axios } = require('axios');
 const { FACEBOOK_PAGE_TOKEN, FACEBOOK_GRAPH_URL } = require('../config');
 
 function whoami() {
-    return axios.get(`${FACEBOOK_GRAPH_URL}/me`)
+    return axios.get(`${FACEBOOK_GRAPH_URL}/me?access_token=${FACEBOOK_PAGE_TOKEN}`)
         .then(({ data: { id, name } }) => console.log('[fb:info] %s https://www.facebook.com/%s', name, id) || { id, name })
 }
 
