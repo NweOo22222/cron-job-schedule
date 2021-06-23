@@ -3,10 +3,10 @@ function __fixedManually() {
     const fixes = [
         "  url.searchParams.set('html5', '1');",
         // "  url.searchParams.set('c', 'TVHTML5');",
-        // "  url.searchParams.set('cver', '6.20180913');",
-        // "  url.searchParams.set('cver', '7.20190319');",
-        "  url.searchParams.set('c', 'WEB');",
-        "  url.searchParams.set('cver', '2.20210621.02.00');",
+        "  url.searchParams.set('cver', '6.20180913');",
+        // // "  url.searchParams.set('cver', '7.20190319');",
+        // "  url.searchParams.set('c', 'WEB');",
+        // "  url.searchParams.set('cver', '2.20210621.02.00');",
     ];
     const fs = require('fs');
     const file_path = __dirname + '/node_modules/ytdl-core/lib/info.js';
