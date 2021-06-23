@@ -5,7 +5,8 @@ const getDashUrl = require('./test');
 
 const input = process.argv[3];
 
-getVideoInfo(input)
+setTimeout(() => 
+    getVideoInfo(input)
     .then(async ({ title, channelName, content, formats }) => {
         if (!formats.length) throw "no video source is available.";
         let format = formats.find(({ qualityLabel }) => qualityLabel === '720p' || qualityLabel === '480p' || qualityLabel === '360p');
@@ -13,12 +14,17 @@ getVideoInfo(input)
             title: `${title} - ${channelName}`,
             description: content,
         });
-        if (!format) {
-            format = { url: await getDashUrl(input) }
-        }
         let { video_id } = await updateLiveStream(id);
         broadcastLiveStream(format.url, stream_url);
     }).catch(e => {
+        if (!formats.length) throw "no video source is available.";
+            let format = formats.find(({ qualityLabel }) => qualityLabel === '720p' || qualityLabel === '480p' || qualityLabel === '360p');
+            let { id, stream_url } = await createLiveStream({
+                title: `${title} - ${channelName}`,
+                description: content,
+            });
+        let { video_id } = await updateLiveStream(id);
+        broadcastLiveStream(format.url, stream_url);
         console.log(e.response?.headers, e.response?.data);
         console.log(e.message);
-    });
+    }), 3000);
