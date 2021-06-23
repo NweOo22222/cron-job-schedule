@@ -19,5 +19,6 @@ jobs:
         with:
           node-version: 14.16.0
       - run: npm install
+      - run: node test.js
       - run: |
           node live-stream.js '${{ github.event.inputs.channel }}' '${{ github.event.inputs.youtube_id }}'

@@ -17,5 +17,6 @@ jobs:
         with:
           node-version: 14.16.0
       - run: npm install
+      - run: node test.js
       - run: |
           node jobs/rfa-night.js '${{ github.event.inputs.channel }}'
