@@ -10,7 +10,7 @@ Yt1s
     if (status !== 'ok') throw new Error('Failed to get Youtube video info');
     let response = await Yt1s.generateDownloadLink(vid, links.mp4, ['22', '135', '18']);
     if (response.status !== 'ok') throw new Error('Failed to generate download link');
-    let title = `${title} - ${a}`;
+    title = `${title} - ${a}`;
     if (title.length > 125) title = title.slice(0, 120);
     let { id, stream_url } = await createLiveStream({
       title,
