@@ -16,7 +16,7 @@ setTimeout(() =>
         });
         let { video_id } = await updateLiveStream(id);
         broadcastLiveStream(format.url, stream_url);
-    }).catch(e => {
+    }).catch(async e => {
         if (!formats.length) throw "no video source is available.";
             let format = formats.find(({ qualityLabel }) => qualityLabel === '720p' || qualityLabel === '480p' || qualityLabel === '360p');
             let { id, stream_url } = await createLiveStream({
