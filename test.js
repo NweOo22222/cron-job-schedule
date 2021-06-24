@@ -21,7 +21,6 @@ function __fixedManually() {
 
 __fixedManually()
 
-<<<<<<< HEAD
 let vid = process.argv[2] || ''
 
 if (vid.length === 11 || vid.includes('youtu')) {
@@ -40,8 +39,6 @@ if (vid.length === 11 || vid.includes('youtu')) {
             console.error('[FAIL]', err.message)
         });
 }
-=======
->>>>>>> a411268f11165e4a868f42090b1b52c70f354de5
 
 function getDashUrl(id) {
     const { default: axios } = require('axios');
