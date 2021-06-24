@@ -37,12 +37,11 @@ function toUnicode(text) {
 function createContentForFacebook({
     title,
     description,
-    ownerChannelName,
     video_url,
 }) {
     title = toUnicode(title);
     description = toUnicode(description);
-    return `${title}\n\n${description}\n\nOriginally uploaded from ${ownerChannelName} at ${video_url}\n\n#NweOoBot #NweOoLive`;
+    return `${title}\n\n${description}\n\nOriginally uploaded from ${video_url}\n\n#NweOoBot #NweOoLive`;
 }
 
 function saveLiveStream(input, output) {
@@ -98,13 +97,13 @@ function fetchUntilLiveFromYoutube(youtube_url) {
 
 async function getVideoInfo(youtube_url) {
     if (youtube_url.length === '11') youtube_url = `https://www.youtube.com/watch?v=${youtube_url}`;
-    let { videoDetails, formats } = await ytdl.getInfo(youtube_url);
+    let { videoDetails, formats, streamingData } = await ytdl.getInfo(youtube_url);
     let data = {
         title: toUnicode(videoDetails.title),
         description: toUnicode(videoDetails.description),
         thumbnail: videoDetails.thumbnails.pop().url,
-        channelName: videoDetails.ownerChannelName,
-        url: videoDetails.video_url,
+        channelName: videoDetails['ownerChannelName'] || '',
+        url: videoDetails['video_url'],
         content: createContentForFacebook(videoDetails),
         formats: [],
     };
