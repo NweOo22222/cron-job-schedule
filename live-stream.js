@@ -4,8 +4,6 @@ const { broadcastLiveStream, getVideoInfo } = require('./src/_helpers');
 const createLiveStream = require('./src/createLiveStream');
 const updateLiveStream = require('./src/updateLiveStream');
 
-const input = process.argv[3];
-
 let liveId;
 
 getVideoInfo(input)
