@@ -60,18 +60,23 @@ function optimizeLiveStream(source_url, path, stream_url, timeout = 30000) {
     }, timeout)
 }
 
-function searchUntilLiveOnYoutube(q) {
+function searchUntilLiveOnYoutube(q, times) {
     let refresh_count = 0
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         let search = async () => {
-            let { live } = await yts(q);
+            let { live } = await yts(q)
             live = live.filter(({ status }) => status === 'LIVE')
             if (live.length) {
                 console.log('live stream:', live.length, live[0].videoId)
                 resolve(live[0].videoId)
             } else {
-                console.log('refresh:', refresh_count++)
-                setTimeout(() => search(), 3000)
+                if (times !== undefined && refresh_count > times) {
+                  console.log('fetch:max', refresh_count++)
+                  reject()
+                } else {
+                  console.log('fetch:refresh', refresh_count++)
+                  setTimeout(() => search(), 3000)
+                }
             }
         }
         search();
