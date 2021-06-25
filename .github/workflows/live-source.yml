@@ -1,8 +1,16 @@
-name: Live Stream [VOA Night]
+name: Live Stream [Source URL]
 on:
   workflow_dispatch:
     inputs:
       channel:
+        required: true
+      source_url:
+        required: true
+      title:
+        required: true
+      organization:
+        required: true
+      link:
         required: true
 jobs:
   live_stream:
@@ -17,4 +25,4 @@ jobs:
         with:
           node-version: 14.16.0
       - run: npm install
-      - run: node jobs/voa-night.js '${{ github.event.inputs.channel }}'
+      - run: node stream-source.js '${{ github.event.inputs.channel }}' '${{ github.event.inputs.source_url }}' '${{ github.event.inputs.title }}' '${{ github.event.inputs.organization }}' '${{ github.event.inputs.link }}'

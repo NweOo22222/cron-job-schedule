@@ -3,12 +3,10 @@ const { getVideoInfo } = require('./src/_helpers');
 const { FACEBOOK_PAGE_TOKEN, FACEBOOK_GRAPH_URL } = require("./config");
 const { default: axios } = require('axios');
 const input = process.argv[3];
-const url = input.length === '11' ? `https://www.youtube.com/watch?v=${input}` : input;
 
-getVideoInfo(url)
+getVideoInfo(input)
     .then(async ({ title, channelName, description, url, formats, thumbnail }) => {
-            let format = formats.find(({ qualityLabel }) => qualityLabel === '720p' || qualityLabel === '480p' || qualityLabel === '360p');
-
+        const format = formats.find(({ qualityLabel }) => qualityLabel === '720p' || qualityLabel === '480p' || qualityLabel === '360p');
         const { data: { id } } = await axios(`${FACEBOOK_GRAPH_URL}/me?access_token=${FACEBOOK_PAGE_TOKEN}`);
         const data = await facebookApiVideoUpload({
             id,
