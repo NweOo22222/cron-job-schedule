@@ -72,11 +72,11 @@ function searchUntilLiveOnYoutube(q, times) {
                 resolve(live[0].videoId)
             } else {
                 if (times !== undefined && refresh_count > times) {
-                  console.log('fetch:max', refresh_count++)
-                  reject()
+                    console.log('fetch:max', refresh_count++)
+                    reject()
                 } else {
-                  console.log('fetch:refresh', refresh_count++)
-                  setTimeout(() => search(), 3000)
+                    console.log('fetch:refresh', refresh_count++)
+                    setTimeout(() => search(), 3000)
                 }
             }
         }
@@ -84,7 +84,7 @@ function searchUntilLiveOnYoutube(q, times) {
     })
 }
 
-function fetchUntilLiveFromYoutube(youtube_url) {
+function fetchUntilLiveFromYoutube(youtube_url, times) {
     let refresh_count = 0
     return new Promise((resolve) => {
         let fetch = async () => {
@@ -92,8 +92,13 @@ function fetchUntilLiveFromYoutube(youtube_url) {
             if (data.formats.length) {
                 resolve(data);
             } else {
-                console.log('refresh:', refresh_count++)
-                setTimeout(() => fetch(), 3000)
+                if (times !== undefined && refresh_count > times) {
+                    console.log('fetch:max', refresh_count++)
+                    reject()
+                } else {
+                    console.log('fetch:refresh', refresh_count++)
+                    setTimeout(() => fetch(), 3000)
+                }
             }
         }
         fetch();

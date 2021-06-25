@@ -2,7 +2,7 @@ let liveId;
 const vid = process.argv[3];
 const user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1';
 const { default: axios } = require('axios');
-const { toUnicode, broadcastLiveStream, createLiveStream, deleteLiveStream } = require('./src/_helpers');
+const { toUnicode, broadcastLiveStream, createLiveStream, deleteLiveStream, updateLiveStream } = require('./src/_helpers');
 const config = {
     headers: {
         'user-agent': user_agent,
@@ -24,11 +24,10 @@ axios
     .then(({ data }) => JSON.parse(new URLSearchParams(data).get('player_response')))
     .then(({ videoDetails, streamingData }) => {
         let source_url;
-        const { formats, adaptiveFormats, dashManifestUrl } = streamingData;
+        const { formats, dashManifestUrl } = streamingData;
         const { title, shortDescription, author } = videoDetails;
         const video_url = `https://www.youtube.com/watch?v=${vid}`;
         const description = `${title}\n\n${toUnicode(shortDescription)}\n\nOriginally uploaded from ${author} at ${video_url}\n#NweOoBot #NweOoLive`;
-
         if (dashManifestUrl) {
             console.log('[INFO] live streaming...');
             source_url = dashManifestUrl;
