@@ -1,4 +1,4 @@
-name: Live Stream
+name: Live Stream [Manually]
 on:
   workflow_dispatch:
     inputs:
