@@ -6,7 +6,7 @@ async function stream(q) {
     let vid, is_live;
 
     const { exec } = require("shelljs");
-    const { searchUntilLiveOnYoutube, fetchUntilLiveFromYoutube, broadcastLiveStream } = require("../src/_helpers");
+    const { searchUntilLiveOnYoutube, getVideoInfo, broadcastLiveStream } = require("../src/_helpers");
     const createLiveStream = require("../src/createLiveStream");
     const updateLiveStream = require("../src/updateLiveStream");
 
@@ -14,7 +14,7 @@ async function stream(q) {
     searchUntilLiveOnYoutube(q)
         .then(videoId => {
             vid = videoId;
-            return fetchUntilLiveFromYoutube(vid);
+            return fetchUntilLiveFromYoutube(vid, 5);
         })
         .then(async ({ title, channelName, content, formats }) => {
             console.log(' >>', new Date().toLocaleString('en-US', { timeZone: 'Asia/Yangon' }));
