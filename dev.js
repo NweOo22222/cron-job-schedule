@@ -27,7 +27,7 @@ axios
         const { formats, dashManifestUrl } = streamingData;
         const { title, shortDescription, author } = videoDetails;
         const video_url = `https://www.youtube.com/watch?v=${vid}`;
-        const description = `${title}\n\n${toUnicode(shortDescription)}\n\nOriginally uploaded from ${author} at ${video_url}\n#NweOoBot #NweOoLive`;
+        const description = `"${toUnicode(title)}" - ${author}\n\n${toUnicode(shortDescription)}\n\nOriginally uploaded from ${author} at ${video_url}\n#NweOoBot #NweOoLive`;
         if (dashManifestUrl) {
             console.log('[INFO] live streaming...');
             source_url = dashManifestUrl;
@@ -38,7 +38,7 @@ axios
             source_url = selectedFormat.url;
         }
         return {
-            title,
+            title: toUnicode(title),
             description,
             source_url,
         };
