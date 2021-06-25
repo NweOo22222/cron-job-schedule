@@ -1,8 +1,6 @@
 const input = process.argv[3];
 
-const { broadcastLiveStream, getVideoInfo } = require('./src/_helpers');
-const createLiveStream = require('./src/createLiveStream');
-const updateLiveStream = require('./src/updateLiveStream');
+const { broadcastLiveStream, getVideoInfo, createLiveStream, updateLiveStream } = require('./src/_helpers');
 
 let liveId;
 
@@ -15,7 +13,7 @@ getVideoInfo(input)
             description: content,
         });
         liveId = id;
-        let { video_id } = await updateLiveStream(id);
+        await updateLiveStream(id);
         broadcastLiveStream(format.url, stream_url);
     }).catch(e => {
         if (liveId) {
@@ -23,4 +21,5 @@ getVideoInfo(input)
         }
         e.response && console.log(e.response?.headers, e.response?.data);
         console.log(e.message);
+        process.exit(1);
     });

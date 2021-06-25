@@ -10,10 +10,10 @@ switch (env) {
         FACEBOOK_PAGE_TOKEN = process.env.FACEBOOK_TEST_TOKEN;
 }
 
-console.log('using "%s" environment', env);
+console.log('[INFO] using "%s" environment', env);
 
 if (!FACEBOOK_PAGE_TOKEN) {
-    throw new Error('undefined environment for `FACEBOOK_PAGE_TOKEN`.')
+    console.warn('[WARNING] FACEBOOK_PAGE_TOKEN is not defined!');
 }
 
 module.exports = {

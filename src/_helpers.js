@@ -4,7 +4,8 @@ const ytdl = require('ytdl-core');
 const yts = require('yt-search');
 const zg = require('is-zawgyi');
 const { zg2uni } = require('rabbit-node');
-
+const { FACEBOOK_PAGE_TOKEN, FACEBOOK_GRAPH_URL } = require('../config');
+const { default: axios } = require('axios');
 const BURMESE_MONTHS = [
     'ဇန်နဝါရီ',
     'ဖေဖော်ဝါရီ',
@@ -44,12 +45,12 @@ function createContentForFacebook({
 }
 
 function saveLiveStream(input, output) {
-    console.log('[1/2] saving live streaming video to local file at %s', output);
+    console.log('[INFO] saving live streaming video to local file at %s', output);
     return execBG(`ffmpeg -re -i '${input}' '${output}' -y`)
 }
 
 function broadcastLiveStream(input, output) {
-    console.log('[2/2] streaming live video RTMP url: %s', output);
+    console.log('[INFO] streaming live video RTMP url: %s', output);
     return exec(`ffmpeg -y -re -i '${input}' -c:v libx264 -preset veryfast -tune zerolatency -b:v 2M -minrate 1M -maxrate 2M -bufsize 2M -c:a aac -b:a 1M -bufsize 1M -f flv '${output}'`)
 }
 
@@ -96,12 +97,12 @@ function fetchUntilLiveFromYoutube(youtube_url) {
 
 async function getVideoInfo(youtube_url) {
     if (youtube_url.length === '11') youtube_url = `https://www.youtube.com/watch?v=${youtube_url}`;
-    let { videoDetails, formats, streamingData } = await ytdl.getInfo(youtube_url);
+    let { videoDetails, formats } = await ytdl.getInfo(youtube_url);
     let data = {
         title: toUnicode(videoDetails.title),
         description: toUnicode(videoDetails.description),
         thumbnail: videoDetails.thumbnails.pop().url,
-        channelName: videoDetails['ownerChannelName'] || '',
+        channelName: videoDetails['ownerChannelName'] || videoDetails['author'],
         url: videoDetails['video_url'],
         content: createContentForFacebook(videoDetails),
         formats: [],
@@ -115,6 +116,46 @@ async function getVideoInfo(youtube_url) {
     return data;
 }
 
+
+function whoami() {
+    return axios.get(`${FACEBOOK_GRAPH_URL}/me?access_token=${FACEBOOK_PAGE_TOKEN}`)
+        .then(({ data: { id, name } }) => console.log('[INFO] live streaming as %s https://fb.me/%s', name, id) || { id, name })
+}
+
+async function createLiveStream({ title, description }) {
+    let url = `${FACEBOOK_GRAPH_URL}/me/live_videos`;
+    let data = {
+        access_token: FACEBOOK_PAGE_TOKEN,
+        status: 'LIVE_NOW',
+        title,
+        description,
+    };
+    await whoami();
+    let { data: { id, stream_url } } = await axios.post(url, data);
+    console.log('[FB]', 'created live video', id);
+    return { id, stream_url };
+}
+
+async function updateLiveStream(id) {
+    let url = `${FACEBOOK_GRAPH_URL}/${id}`;
+    let data = {
+        access_token: FACEBOOK_PAGE_TOKEN,
+        status: 'LIVE_NOW',
+        fields: 'video',
+        embeddable: false,
+    };
+    let { data: { video } } = await axios.post(url, data);
+    console.log('[FB] updated live video, watch live stream at: https://www.facebook.com/watch/live/?v=%s', video.id);
+    return { video_id: video.id }
+}
+
+async function deleteLiveStream(id) {
+    let url = `${FACEBOOK_GRAPH_URL}/${id}?access_token=${FACEBOOK_PAGE_TOKEN}`;
+    const { data: { success } } = await axios.delete(url);
+    console.log('[FB] Deleted Facebook Live Stream', id);
+    return { success };
+}
+
 module.exports = {
     saveLiveStream,
     broadcastLiveStream,
@@ -124,4 +165,7 @@ module.exports = {
     createContentForFacebook,
     getVideoInfo,
     fetchUntilLiveFromYoutube,
+    createLiveStream,
+    updateLiveStream,
+    deleteLiveStream,
 }
