@@ -19,7 +19,10 @@ Yt1s
       }
     } catch(e) {
       console.log(e.message);
-      response = { dlink: await getDashUrl(vid) };
+      let { streamingData, videoDetails } = await getDashUrl(vid));
+      response = { dlink: streamingData.dashManifestUrl };
+      response.title = videoDetails.title
+      // response.description = videoDetails.description;
     }
     title = toUnicode(`${title} - ${a}`);
     if (title.length > 125) title = title.slice(0, 120);
@@ -39,7 +42,6 @@ function getDashUrl(id) {
 
     return axios.get(`https://www.youtube.com/get_video_info?video_id=${id}&eurl=https%3A%2F%2Fyoutube.googleapis.com%2Fv%2Fonz2k4zoLjQ&html5=1&c=TVHTML5&cver=6.20180913`).then(({ data }) => {
         let u = new URL('http://localhost?' + data);
-        let r = JSON.parse(u.searchParams.get('player_response'));
-        return r.streamingData.dashManifestUrl;
+        return JSON.parse(u.searchParams.get('player_response'));
     });
 }
