@@ -20,11 +20,8 @@ getYTInfo(vid)
               text = text.trim();
               if (text.includes(':BANDWIDTH')) {
                 let resolution = text.match(/RESOLUTION=(\d{3,4}x\d{3,4}),/)[1];
-                result.push({ resolution, url: null });
-              } else {
-                if (result.length && text.slice(0, 4) === 'https') {
-                  result[result.length - 1].url = text;
-                }
+		let [, url] = text.split('\n');
+                result.push({ resolution, url });
               }
             }
             console.log(result)
