@@ -27,6 +27,7 @@ getYTInfo(vid)
                 }
               }
             }
+            console.log(result)
             source_url = result.find(video => video.resolution === '1280x720')
                 || result.find(video => video.resolution === '854x480');
             source_url = source_url['url'] || hlsManifestUrl;
