@@ -1,4 +1,4 @@
-name: (dev-v2)
+name: Live Stream (720p)
 on:
   workflow_dispatch:
     inputs:
