@@ -1,4 +1,4 @@
-name: (dev)
+name: Live Stream (Archive)
 on:
   workflow_dispatch:
     inputs:
