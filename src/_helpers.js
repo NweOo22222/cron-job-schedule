@@ -49,9 +49,12 @@ function saveLiveStream(input, output) {
     return execBG(`ffmpeg -re -i '${input}' '${output}' -y`)
 }
 
-function broadcastLiveStream(input, output) {
+function broadcastLiveStream(input, output, cb) {
     console.log('[INFO] streaming live video RTMP url: %s', output);
-    return exec(`ffmpeg -y -re -i '${input}' -c:v libx264 -preset veryfast -tune zerolatency -b:v 2M -minrate 1M -maxrate 2M -bufsize 2M -c:a aac -b:a 1M -bufsize 1M -f flv '${output}'`)
+    let output = exec(`ffmpeg -y -re -i '${input}' -c:v libx264 -preset veryfast -tune zerolatency -b:v 2M -minrate 1M -maxrate 2M -bufsize 2M -c:a aac -b:a 1M -bufsize 1M -f flv '${output}'`)
+    if (cb && cb instanceOf Function) {
+      cb(output)
+    }
 }
 
 function optimizeLiveStream(source_url, path, stream_url, timeout = 30000) {
