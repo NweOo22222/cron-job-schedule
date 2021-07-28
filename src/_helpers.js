@@ -51,9 +51,9 @@ function saveLiveStream(input, output) {
 
 function broadcastLiveStream(input, output, cb) {
     console.log('[INFO] streaming live video RTMP url: %s', output);
-    let output = exec(`ffmpeg -y -re -i '${input}' -c:v libx264 -preset veryfast -tune zerolatency -b:v 2M -minrate 1M -maxrate 2M -bufsize 2M -c:a aac -b:a 1M -bufsize 1M -f flv '${output}'`)
+    let stdout = exec(`ffmpeg -y -re -i '${input}' -c:v libx264 -preset veryfast -tune zerolatency -b:v 2M -minrate 1M -maxrate 2M -bufsize 2M -c:a aac -b:a 1M -bufsize 1M -f flv '${output}'`)
     if (cb && cb instanceOf Function) {
-      cb(output)
+      cb(stdout)
     }
 }
 
