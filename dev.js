@@ -47,7 +47,7 @@ getYTInfo(vid)
         const { id, stream_url } = await createLiveStream({ title, description });
         liveId = id;
         await updateLiveStream(id);
-        broadcastLiveStream(source_url, stream_url, () => setTimeout(() => process.exit(1), 3000));
+        broadcastLiveStream(source_url, stream_url, () => setTimeout(() => process.exit(0), 3000));
     }).catch(err => {
         if (liveId) deleteLiveStream(liveId);
         console.log(err);
