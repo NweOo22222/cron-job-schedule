@@ -1,7 +1,7 @@
 name: Live Stream [VOA Morning]
 on:
-  schedule:
-    - cron: '0 22 * * *'
+  workflow_dispatch:
+
 jobs:
   live_stream:
     runs-on: ubuntu-latest
