@@ -4,7 +4,7 @@ console.log(' >>', new Date().toLocaleString('en-US', { timeZone: 'Asia/Yangon' 
 
 async function stream(q) {
     console.log(' >>', new Date().toLocaleString('en-US', { timeZone: 'Asia/Yangon' }), 'PRE_LIVE');
-    searchUntilLiveOnYoutube(q)
+    searchUntilLiveOnYoutube(q, 20, 'RFA Burmese လွတ်လပ်တဲ့အာရှအသံ')
         .then(async (videoId) => {
             process.argv[3] = videoId;
             setTimeout(() => console.log('  live stream in %d seconds...', 3), 1000);
