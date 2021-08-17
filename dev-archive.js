@@ -1,7 +1,13 @@
 let liveId;
 const vid = process.argv[3];
-const getYTInfo = require('./getYTInfo');
-const { toUnicode, broadcastLiveStream, createLiveStream, deleteLiveStream, updateLiveStream } = require('./src/_helpers');
+const getYTInfo = require("./getYTInfo");
+const {
+  toUnicode,
+  broadcastLiveStream,
+  createLiveStream,
+  deleteLiveStream,
+  updateLiveStream,
+} = require("./src/_helpers");
 
 /*
 const { default: axios } = require('axios');
@@ -24,36 +30,41 @@ url.searchParams.append('cver', cver);
 */
 
 getYTInfo(vid)
-    .then(({ videoDetails, streamingData }) => {
-        let source_url;
-        const { formats, dashManifestUrl, hlsManifestUrl } = streamingData;
-        const { title, shortDescription, author } = videoDetails;
-        const video_url = `https://www.youtube.com/watch?v=${vid}`;
-        const description = `"${toUnicode(title)}" - ${author}\n\n${toUnicode(shortDescription)}\n\nOriginally uploaded from ${author} at ${video_url}\n#NweOoBot #NweOoLive`;
-        if (hlsManifestUrl) {
-            console.log('[INFO] live streaming from HLS...', hlsManifestUrl);
-            source_url = hlsManifestUrl;
-        } else if (dashManifestUrl) {
-            console.log('[INFO] live streaming from DASH...', dashManifestUrl);
-            source_url = dashManifestUrl;
-        } else {
-            let selectedFormat = formats.find(({ qualityLabel }) => qualityLabel === '720p')
-                || formats.find(({ qualityLabel }) => qualityLabel === '480p')
-                || formats.find(({ qualityLabel }) => qualityLabel === '360p');
-            source_url = selectedFormat.url;
-        }
-        return {
-            title: toUnicode(title),
-            description,
-            source_url,
-        };
-    }).then(async ({ title, description, source_url }) => {
-        const { id, stream_url } = await createLiveStream({ title, description });
-        liveId = id;
-        await updateLiveStream(id);
-        broadcastLiveStream(source_url, stream_url);
-    }).catch(err => {
-        if (liveId) deleteLiveStream(liveId);
-        console.log(err);
-        process.exit(1);
-    });
+  .then(({ videoDetails, streamingData }) => {
+    let source_url;
+    const { formats, dashManifestUrl, hlsManifestUrl } = streamingData;
+    const { title, shortDescription, author } = videoDetails;
+    const video_url = `https://www.youtube.com/watch?v=${vid}`;
+    const description = `"${toUnicode(title)}" - ${author}\n\n${toUnicode(
+      shortDescription
+    )}\n\nOriginally uploaded from ${author} at ${video_url}\n#NweOoBot #NweOoLive`;
+    if (hlsManifestUrl) {
+      console.log("[INFO] live streaming from HLS...", hlsManifestUrl);
+      source_url = hlsManifestUrl;
+    } else if (dashManifestUrl) {
+      console.log("[INFO] live streaming from DASH...", dashManifestUrl);
+      source_url = dashManifestUrl;
+    } else {
+      let selectedFormat =
+        formats.find(({ qualityLabel }) => qualityLabel === "720p") ||
+        formats.find(({ qualityLabel }) => qualityLabel === "480p") ||
+        formats.find(({ qualityLabel }) => qualityLabel === "360p");
+      source_url = selectedFormat.url;
+    }
+    return {
+      title: toUnicode(title),
+      description,
+      source_url,
+    };
+  })
+  .then(async ({ title, description, source_url }) => {
+    const { id, stream_url } = await createLiveStream({ title, description });
+    liveId = id;
+    await updateLiveStream(id);
+    broadcastLiveStream(source_url, stream_url);
+  })
+  .catch((err) => {
+    if (liveId) deleteLiveStream(liveId);
+    console.log(err);
+    process.exit(1);
+  });
