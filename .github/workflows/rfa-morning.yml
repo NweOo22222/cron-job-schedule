@@ -1,4 +1,4 @@
-name: Live Stream [RFA Morning]
+name: '[LIVE STREAM] RFA MORNING'
 on:
   schedule:
     - cron: '0 23 * * *'
