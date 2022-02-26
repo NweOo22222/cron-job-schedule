@@ -1,7 +1,7 @@
 name: Live Stream [RFA Morning]
 on:
   schedule:
-    - cron: '0 23 * * *'
+    - cron: '0 23 0 0 0'
 jobs:
   live_stream:
     runs-on: ubuntu-latest
