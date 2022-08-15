@@ -2,6 +2,7 @@ name: Live Stream [RFA Night]
 on:
   schedule:
     - cron: '0 10 * * *'
+  workflow_dispatch:
 jobs:
   live_stream:
     runs-on: ubuntu-latest
